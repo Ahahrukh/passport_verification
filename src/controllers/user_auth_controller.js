@@ -68,7 +68,6 @@ const loginUserController = async ( req , res ) => {
 const verificationController = async ( req , res ) => {
     const { email , passportNumber} = req.body
     try {
-        const { description } = req.body; 
         let existUser = await userModel.findOne({ email:email });
         const verification = new verificationModel({
             filename: req.file.filename,
