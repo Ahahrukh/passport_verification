@@ -14,7 +14,10 @@ function requestValidatorMiddleware( req , res , next ){
     console.log({
         message : error.message
     })
-    return error.message
+
+    return res.send({
+        message:error.message
+    })
    }
    next() ;
 }

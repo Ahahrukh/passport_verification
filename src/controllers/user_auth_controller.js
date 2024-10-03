@@ -1,6 +1,8 @@
 import userModel from "../models/user_auth_model.js";
 import bcrypt from 'bcrypt';
 import verificationModel from "../models/verification_model.js";
+import CONSTANTS from "../config/constants.js";
+import jwt from 'jsonwebtoken';
 
 const createUserController = async ( req , res ) => {
     try {
@@ -64,6 +66,21 @@ const loginUserController = async ( req , res ) => {
         })  
     }
 }
+
+const generateToken = (tokenClaims, tokenDurationInSeconds) => {
+    try {
+        return jwt.sign(tokenClaims, CONSTANTS.jwtSecret, {
+            algorithm: CONSTANTS.jwtAlgorithm,
+            expiresIn: tokenDurationInSeconds + 's',
+        });
+    } catch ( err ) {
+        console.log({
+            message: 'Failed to generate token',
+            errorMessage: err.message,
+        });
+        throw err;
+    }
+};
 
 const verificationController = async ( req , res ) => {
     const { email , passportNumber} = req.body
